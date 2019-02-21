@@ -1,6 +1,5 @@
 package com.shuyun.easyimg.core;
 
-import android.graphics.Path;
 import android.os.Environment;
 
 import com.shuyun.easyimg.common.Image;
@@ -17,6 +16,13 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+/**
+ * An Image cache in local disk. Use DiskLruCache to cache Image in device ROM
+ *
+ * @Author shuyun
+ * @Create 2019/2/21 0021 19:07
+ * @Update 2019/2/21 0021 19:07
+ */
 public class ImageCacheDisk extends AbstractImageCache {
 
     private DiskLruCache cache;
@@ -28,8 +34,8 @@ public class ImageCacheDisk extends AbstractImageCache {
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private Lock readLock = lock.readLock();
     private Lock writeLock = lock.writeLock();
-    private Condition readCdt = readLock.newCondition();
-    private Condition writeCdt = writeLock.newCondition();
+//    private Condition readCdt = readLock.newCondition();
+//    private Condition writeCdt = writeLock.newCondition();
 
     @Override
     public AbstractImageCache newInstance() {

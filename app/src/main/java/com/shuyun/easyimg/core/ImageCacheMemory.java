@@ -5,8 +5,13 @@ import android.util.LruCache;
 import com.shuyun.easyimg.common.Image;
 import com.shuyun.easyimg.common.Optional;
 
-import java.lang.ref.WeakReference;
-
+/**
+ * An RAM cache via LruCache in Android which extend by LinkedHashMap
+ * Use 1/8 of app's RAM space for caching Image
+ * @Author shuyun
+ * @Create 2019/2/21 0021 19:06
+ * @Update 2019/2/21 0021 19:06
+ */
 final public class ImageCacheMemory extends AbstractImageCache {
 
     LruCache<String, Image> cache;

@@ -5,6 +5,8 @@ import android.util.LruCache;
 import com.shuyun.easyimg.common.Image;
 import com.shuyun.easyimg.common.Optional;
 
+import java.lang.ref.SoftReference;
+
 /**
  * An RAM cache via LruCache in Android which extend by LinkedHashMap
  * Use 1/8 of app's RAM space for caching Image
@@ -14,25 +16,25 @@ import com.shuyun.easyimg.common.Optional;
  */
 final public class ImageCacheMemory extends AbstractImageCache {
 
-    LruCache<String, Image> cache;
-
-    @Override
-    public AbstractImageCache newInstance() {
-        return new ImageCacheMemory();
-    }
+    private LruCache<String, SoftReference<Image>> cache;
 
     private ImageCacheMemory() {
         final int maxMemory = (int) (Runtime.getRuntime().totalMemory() / 1024);
         final int cacheSize = maxMemory / 8;
-        cache = new LruCache<String, Image>(cacheSize){
+        cache = new LruCache<String, SoftReference<Image>>(cacheSize){
             @Override
-            protected int sizeOf(String key, Image value) {
-                if (null == value) {
+            protected int sizeOf(String key, SoftReference<Image> value) {
+                if (null == value || null == value.get()) {
                     return 0;
                 }
-                return value.getSize() / 1024;
+                return value.get().getSize() / 1024;
             }
         };
+    }
+
+    @Override
+    protected ImageCache newImageCache() {
+        return new ImageCacheMemory();
     }
 
     @Override
@@ -43,17 +45,17 @@ final public class ImageCacheMemory extends AbstractImageCache {
 
     @Override
     public Optional<Image> obtainImage(String id) {
-        final Image image = cache.get(id);
-        if (null == image) {
+        final SoftReference<Image> soft = cache.get(id);
+        if (null == soft) {
             return Optional.empty();
         } else {
-            return Optional.ofNullable(image);
+            return Optional.ofNullable(soft.get());
         }
     }
 
     @Override
     public Optional<Boolean> cacheImage(Image image) {
-        final Image res = cache.put(image.getId(), image);
+        final SoftReference<Image> res = cache.put(image.getId(), new SoftReference<>(image));
         return Optional.of(null == res);
     }
 }

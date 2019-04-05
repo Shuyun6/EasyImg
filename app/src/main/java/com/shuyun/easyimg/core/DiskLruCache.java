@@ -166,6 +166,7 @@ public final class DiskLruCache implements Closeable {
             60L, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
 
     private final Callable<Void> cleanupCallable = new Callable<Void>() {
+        @Override
         public Void call() throws Exception {
             synchronized (DiskLruCache.this) {
                 if (journalWriter == null) {
@@ -399,7 +400,7 @@ public final class DiskLruCache implements Closeable {
 
     private static void renameTo(File from, File to, boolean deleteDestination) throws IOException {
         if (deleteDestination) {
-            deleteIfExists(to);
+            deleteIfExists(to); 
         }
         if (!from.renameTo(to)) {
             throw new IOException();
@@ -578,8 +579,7 @@ public final class DiskLruCache implements Closeable {
      */
     private boolean journalRebuildRequired() {
         final int redundantOpCompactThreshold = 2000;
-        return redundantOpCount >= redundantOpCompactThreshold //
-                && redundantOpCount >= lruEntries.size();
+        return redundantOpCount >= redundantOpCompactThreshold && redundantOpCount >= lruEntries.size();
     }
 
     /**
@@ -641,6 +641,7 @@ public final class DiskLruCache implements Closeable {
     /**
      * Closes this cache. Stored values will remain on the filesystem.
      */
+    @Override
     public synchronized void close() throws IOException {
         if (journalWriter == null) {
             return; // Already closed.
@@ -730,6 +731,7 @@ public final class DiskLruCache implements Closeable {
             return lengths[index];
         }
 
+        @Override
         public void close() {
             for (InputStream in : ins) {
                 Util.closeQuietly(in);

@@ -5,6 +5,7 @@ import android.os.Environment;
 import com.shuyun.easyimg.common.Image;
 import com.shuyun.easyimg.common.Logg;
 import com.shuyun.easyimg.common.Optional;
+import com.shuyun.easyimg.utils.DiskLruCache;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 

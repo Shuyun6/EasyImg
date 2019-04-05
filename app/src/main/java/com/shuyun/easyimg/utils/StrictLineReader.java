@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.shuyun.easyimg.core;
+package com.shuyun.easyimg.utils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
@@ -90,7 +90,7 @@ class StrictLineReader implements Closeable {
     if (capacity < 0) {
       throw new IllegalArgumentException("capacity <= 0");
     }
-    if (!(charset.equals(Util.US_ASCII))) {
+    if (!(charset.equals(DlcUtil.US_ASCII))) {
       throw new IllegalArgumentException("Unsupported encoding");
     }
 

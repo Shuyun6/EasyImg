@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.shuyun.easyimg.core;
+package com.shuyun.easyimg.utils;
 
 import java.io.Closeable;
 import java.io.File;
@@ -24,11 +24,11 @@ import java.io.StringWriter;
 import java.nio.charset.Charset;
 
 /** Junk drawer of utility methods. */
-final class Util {
+final class DlcUtil {
   static final Charset US_ASCII = Charset.forName("US-ASCII");
   static final Charset UTF_8 = Charset.forName("UTF-8");
 
-  private Util() {
+  private DlcUtil() {
   }
 
   static String readFully(Reader reader) throws IOException {

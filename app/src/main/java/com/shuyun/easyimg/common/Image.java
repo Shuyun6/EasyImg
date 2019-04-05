@@ -1,23 +1,35 @@
 package com.shuyun.easyimg.common;
 
-import android.support.annotation.NonNull;
-
 import java.io.Serializable;
 
 final public class Image implements Serializable {
 
-    public enum IMAGE_TYPE {
-        BITMAP, DRAWABLE, FILE, BASE64, BYTES, OTHERS
+    public enum TYPE {
+        //
+        BITMAP(0),
+        DRAWABLE(1),
+        FILE(2),
+        BASE64(3),
+        BYTES(4),
+        OTHERS(99);
+        int value;
+
+        TYPE(int value) {
+            this.value = value;
+        }
     }
 
-    @NonNull
     private String id;
 
-    private IMAGE_TYPE type;
+    private int type;
 
     private Object object;
 
     private int size;
+
+    public Image(){
+
+    }
 
     public int getSize() {
         return size;
@@ -35,11 +47,11 @@ final public class Image implements Serializable {
         this.id = id;
     }
 
-    public IMAGE_TYPE getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(IMAGE_TYPE type) {
+    public void setType(int type) {
         this.type = type;
     }
 

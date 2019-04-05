@@ -3,6 +3,7 @@ package com.shuyun.easyimg.core;
 import android.os.Environment;
 
 import com.shuyun.easyimg.common.Image;
+import com.shuyun.easyimg.common.Logg;
 import com.shuyun.easyimg.common.Optional;
 
 import java.io.File;
@@ -26,10 +27,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class ImageCacheDisk extends AbstractImageCache {
 
     private DiskLruCache cache;
-    private final String dir = Environment.getDataDirectory()+"/cache";
-    private final long maxCacheSize = 10*1024*1024;//Use 10MB size for image caching
-    private final long tryLockTimeout = 100;//ms
-    private final int index = 0;//index for valueCount
+    private final String dir = Environment.getDataDirectory()+"/cache/image";
+    /**
+     * Use 10MB size for image caching
+     */
+    private final long maxCacheSize = 10*1024*1024;
+    private final long tryLockTimeout = 100;
+    /**
+     * index for valueCount
+     */
+    private final int index = 0;
 
     private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
     private Lock readLock = lock.readLock();
@@ -37,17 +44,17 @@ public class ImageCacheDisk extends AbstractImageCache {
 //    private Condition readCdt = readLock.newCondition();
 //    private Condition writeCdt = writeLock.newCondition();
 
-    @Override
-    public AbstractImageCache newInstance() {
-        return new ImageCacheDisk();
-    }
-
     private ImageCacheDisk(){
         try {
             cache = DiskLruCache.open(new File(dir), 1, 1, maxCacheSize);
         } catch (IOException e) {
-
+            Logg.e(e.getMessage());
         }
+    }
+
+    @Override
+    protected ImageCache newImageCache() {
+        return new ImageCacheDisk();
     }
 
     @Override
@@ -56,7 +63,7 @@ public class ImageCacheDisk extends AbstractImageCache {
         try {
             cache.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logg.e(e.getMessage());
         }
     }
 
@@ -75,7 +82,7 @@ public class ImageCacheDisk extends AbstractImageCache {
                 image = (Image) ois.readObject();
             }
         } catch (Exception e) {
-
+            Logg.e(e.getMessage());
         } finally {
             readLock.unlock();
         }
@@ -97,9 +104,9 @@ public class ImageCacheDisk extends AbstractImageCache {
                 oos.close();
             }
         } catch (Exception e) {
-
+            Logg.e(e.getMessage());
         } finally {
-            readLock.unlock();
+            writeLock.unlock();
         }
         return Optional.of(true);
     }

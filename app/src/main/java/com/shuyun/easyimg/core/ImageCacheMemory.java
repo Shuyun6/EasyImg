@@ -2,7 +2,6 @@ package com.shuyun.easyimg.core;
 
 import android.util.LruCache;
 
-import com.shuyun.easyimg.common.Image;
 import com.shuyun.easyimg.common.Optional;
 
 import java.lang.ref.SoftReference;

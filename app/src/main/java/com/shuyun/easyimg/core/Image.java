@@ -1,6 +1,7 @@
-package com.shuyun.easyimg.common;
+package com.shuyun.easyimg.core;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 final public class Image implements Serializable {
 
@@ -28,7 +29,7 @@ final public class Image implements Serializable {
     private int size;
 
     public Image(){
-
+        id = UUID.randomUUID().toString();
     }
 
     public int getSize() {

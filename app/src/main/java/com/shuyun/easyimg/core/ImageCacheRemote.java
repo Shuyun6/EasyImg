@@ -1,6 +1,5 @@
 package com.shuyun.easyimg.core;
 
-import com.shuyun.easyimg.common.Image;
 import com.shuyun.easyimg.common.Optional;
 
 /**
@@ -18,13 +17,29 @@ import com.shuyun.easyimg.common.Optional;
  * @Update 2019/2/21 0021 19:00
  */
 public class ImageCacheRemote extends AbstractImageCache {
+
+    private RemoteImageAdapter adapter;
+
+    public void setAdapter(RemoteImageAdapter adapter) {
+        this.adapter = adapter;
+    }
+
     @Override
     public Optional<Image> obtainImage(String id) {
-        return null;
+        Object object = adapter.convertFromRawData();
+        Image image = new Image();
+        image.setObject(object);
+        return Optional.ofNullable(image);
     }
 
     @Override
     public Optional<Boolean> cacheImage(Image image) {
         return null;
     }
+
+    @Override
+    protected ImageCache newImageCache() {
+        return new ImageCacheRemote();
+    }
+
 }

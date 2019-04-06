@@ -2,8 +2,7 @@ package com.shuyun.easyimg.core;
 
 import android.os.Environment;
 
-import com.shuyun.easyimg.common.Image;
-import com.shuyun.easyimg.common.Logg;
+import com.shuyun.easyimg.utils.Logg;
 import com.shuyun.easyimg.common.Optional;
 import com.shuyun.easyimg.utils.DiskLruCache;
 

@@ -1,4 +1,4 @@
-package com.shuyun.easyimg.common;
+package com.shuyun.easyimg.utils;
 
 import android.util.Log;
 
